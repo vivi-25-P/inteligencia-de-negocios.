@@ -1,0 +1,161 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "dd1556457f319a148341",
+  "position": {
+    "x": 19.767497977317568,
+    "y": 153.48880782387758,
+    "z": 0,
+    "height": 388.37319555435693,
+    "width": 430.23377950632351
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Vacios_por_columna"
+                    }
+                  },
+                  "Property": "columna"
+                }
+              },
+              "queryRef": "Vacios_por_columna.columna",
+              "nativeQueryRef": "columna"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Vacios_por_columna"
+                    }
+                  },
+                  "Property": "vacios"
+                }
+              },
+              "queryRef": "Vacios_por_columna.vacios",
+              "nativeQueryRef": "vacios"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Vacios_por_columna"
+                    }
+                  },
+                  "Property": "porcentaje_vacios"
+                }
+              },
+              "queryRef": "Vacios_por_columna.porcentaje_vacios",
+              "nativeQueryRef": "porcentaje_vacios"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Vacios_por_columna"
+                    }
+                  },
+                  "Property": "distintos"
+                }
+              },
+              "queryRef": "Vacios_por_columna.distintos",
+              "nativeQueryRef": "distintos"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Vacíos y valores distintos por columna'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "7f57d9fd5e8b003738c1",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Vacios_por_columna"
+              }
+            },
+            "Property": "columna"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6b4f8fc5a1238ab011ea",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Vacios_por_columna"
+              }
+            },
+            "Property": "vacios"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "86cb8a600ac137ae2b29",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Vacios_por_columna"
+              }
+            },
+            "Property": "porcentaje_vacios"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9b8d2e075f0b3a970514",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Vacios_por_columna"
+              }
+            },
+            "Property": "distintos"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

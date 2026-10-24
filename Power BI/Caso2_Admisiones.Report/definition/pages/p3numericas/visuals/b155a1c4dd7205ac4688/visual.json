@@ -1,0 +1,95 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "b155a1c4dd7205ac4688",
+  "position": {
+    "x": 10,
+    "y": 10,
+    "z": 0,
+    "height": 340,
+    "width": 820
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "puntaje_num"
+                }
+              },
+              "queryRef": "Admisiones_Original.puntaje_num",
+              "nativeQueryRef": "puntaje_num",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Registros"
+                }
+              },
+              "queryRef": "Admisiones_Original.Registros",
+              "nativeQueryRef": "Registros"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Admisiones_Original"
+                  }
+                },
+                "Property": "puntaje_num"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Distribución de los puntajes de admisión'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

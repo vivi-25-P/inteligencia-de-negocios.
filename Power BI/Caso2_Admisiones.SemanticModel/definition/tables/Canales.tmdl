@@ -1,0 +1,22 @@
+table Canales
+	lineageTag: 6f6f9191-8075-4525-b8ba-8cc9a5856c41
+
+	column canal_captacion
+		dataType: string
+		lineageTag: bcf8a957-6cf2-481d-b6e7-a00cae9de581
+		summarizeBy: none
+		sourceColumn: canal_captacion
+
+		annotation SummarizationSetBy = User
+
+	partition Canales = m
+		mode: import
+		source =
+				let
+				    Origen = Admisiones_Original,
+				    Canales = Table.Distinct(Table.SelectColumns(Origen, {"canal_captacion"}))
+				in
+				    Canales
+
+	annotation PBI_ResultType = Table
+

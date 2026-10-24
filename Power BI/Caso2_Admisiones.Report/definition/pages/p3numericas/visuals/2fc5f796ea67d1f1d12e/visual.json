@@ -1,0 +1,129 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "2fc5f796ea67d1f1d12e",
+  "position": {
+    "x": 840,
+    "y": 10,
+    "z": 0,
+    "height": 340,
+    "width": 430
+  },
+  "visual": {
+    "visualType": "multiRowCard",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Puntaje - n"
+                }
+              },
+              "queryRef": "Admisiones_Original.Puntaje - n",
+              "nativeQueryRef": "Puntaje - n"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Puntaje - mínimo"
+                }
+              },
+              "queryRef": "Admisiones_Original.Puntaje - mínimo",
+              "nativeQueryRef": "Puntaje - mínimo"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Puntaje - máximo"
+                }
+              },
+              "queryRef": "Admisiones_Original.Puntaje - máximo",
+              "nativeQueryRef": "Puntaje - máximo"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Puntaje - promedio"
+                }
+              },
+              "queryRef": "Admisiones_Original.Puntaje - promedio",
+              "nativeQueryRef": "Puntaje - promedio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Puntaje - mediana"
+                }
+              },
+              "queryRef": "Admisiones_Original.Puntaje - mediana",
+              "nativeQueryRef": "Puntaje - mediana"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Puntaje - atípicos"
+                }
+              },
+              "queryRef": "Admisiones_Original.Puntaje - atípicos",
+              "nativeQueryRef": "Puntaje - atípicos"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Estadísticas del puntaje'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

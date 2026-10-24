@@ -1,0 +1,234 @@
+table Admisiones_Limpia
+	lineageTag: 32c46f22-4d46-4793-b10e-5921fb891557
+
+	measure 'Registros limpios' = COUNTROWS(Admisiones_Limpia)
+		formatString: #,0
+		lineageTag: 38102d29-b6b6-4b4c-9e26-d191f63c85bd
+
+	measure '% del total limpio' = DIVIDE([Registros limpios], CALCULATE([Registros limpios], ALL(Admisiones_Limpia)))
+		formatString: 0.00%
+		lineageTag: 0cf686dc-b3b5-48dd-a213-98ffb0f4ec7e
+
+	measure '% matriculado limpio' = DIVIDE(CALCULATE([Registros limpios], Admisiones_Limpia[estado_proceso] = "Matriculado"), [Registros limpios])
+		formatString: 0.00%
+		lineageTag: 62851ca2-47fb-4971-8bcc-31dfe9a0179e
+
+	column registro_id
+		dataType: string
+		lineageTag: 0a6a12da-f126-4d36-835f-e22a9013ac98
+		summarizeBy: none
+		sourceColumn: registro_id
+
+		annotation SummarizationSetBy = User
+
+	column aspirante_id
+		dataType: string
+		lineageTag: 024a75dd-b06a-43a4-af02-39f16d30e32a
+		summarizeBy: none
+		sourceColumn: aspirante_id
+
+		annotation SummarizationSetBy = User
+
+	column fecha_solicitud
+		dataType: string
+		lineageTag: 6bf0939c-0ccd-42b2-a54d-df0fd280417b
+		summarizeBy: none
+		sourceColumn: fecha_solicitud
+
+		annotation SummarizationSetBy = User
+
+	column programa
+		dataType: string
+		lineageTag: f6a9fee9-3314-41eb-9883-a550ba0577e8
+		summarizeBy: none
+		sourceColumn: programa
+
+		annotation SummarizationSetBy = User
+
+	column modalidad
+		dataType: string
+		lineageTag: 54b232cf-6e0c-4344-9e28-cc0aebccd845
+		summarizeBy: none
+		sourceColumn: modalidad
+
+		annotation SummarizationSetBy = User
+
+	column canal_captacion
+		dataType: string
+		lineageTag: 5ca70032-ff58-4f5d-8884-ab792a305b1b
+		summarizeBy: none
+		sourceColumn: canal_captacion
+
+		annotation SummarizationSetBy = User
+
+	column estado_proceso
+		dataType: string
+		lineageTag: 11a86d72-aa0e-4c13-98b4-8767af11dbe7
+		summarizeBy: none
+		sourceColumn: estado_proceso
+
+		annotation SummarizationSetBy = User
+
+	column puntaje_admision
+		dataType: string
+		lineageTag: dee6b0f8-244a-4b6f-b96b-9b9cec3ee7c0
+		summarizeBy: none
+		sourceColumn: puntaje_admision
+
+		annotation SummarizationSetBy = User
+
+	column documentos_completos
+		dataType: string
+		lineageTag: 70b4bd7e-7375-4c4c-883a-74a9265dbac9
+		summarizeBy: none
+		sourceColumn: documentos_completos
+
+		annotation SummarizationSetBy = User
+
+	column valor_matricula_cop
+		dataType: string
+		lineageTag: a7743989-faa4-4650-bb93-474513ba8c78
+		summarizeBy: none
+		sourceColumn: valor_matricula_cop
+
+		annotation SummarizationSetBy = User
+
+	column ciudad_residencia
+		dataType: string
+		lineageTag: 2843dc42-8b56-44f4-86c3-2ccf6480ab1c
+		summarizeBy: none
+		sourceColumn: ciudad_residencia
+
+		annotation SummarizationSetBy = User
+
+	column asesor
+		dataType: string
+		lineageTag: 4c16a9ac-7a91-47cd-a9f6-4d3437472721
+		summarizeBy: none
+		sourceColumn: asesor
+
+		annotation SummarizationSetBy = User
+
+	column fecha_matricula
+		dataType: string
+		lineageTag: adbb25c3-ac3b-49b0-9925-84028022a1e5
+		summarizeBy: none
+		sourceColumn: fecha_matricula
+
+		annotation SummarizationSetBy = User
+
+	column correo
+		dataType: string
+		lineageTag: 970e86fe-cc9e-4e4c-90d9-2537b1cd7a49
+		summarizeBy: none
+		sourceColumn: correo
+
+		annotation SummarizationSetBy = User
+
+	column periodo_academico
+		dataType: string
+		lineageTag: 5634f067-e1de-4e52-abf8-e2e66b567f54
+		summarizeBy: none
+		sourceColumn: periodo_academico
+
+		annotation SummarizationSetBy = User
+
+	column puntaje_num
+		dataType: double
+		formatString: 0
+		lineageTag: 49ac61cb-37d7-43e0-9e95-397e675cd7c1
+		summarizeBy: none
+		sourceColumn: puntaje_num
+
+		annotation SummarizationSetBy = User
+
+	column valor_num
+		dataType: double
+		formatString: \$#,0
+		lineageTag: eb92f7c7-5033-4ef6-a187-34b6c196a758
+		summarizeBy: none
+		sourceColumn: valor_num
+
+		annotation SummarizationSetBy = User
+
+	column formato_fecha_solicitud
+		dataType: string
+		lineageTag: 8bb969ad-595d-4ffa-aeb8-594e030b9c03
+		summarizeBy: none
+		sourceColumn: formato_fecha_solicitud
+
+		annotation SummarizationSetBy = User
+
+	column formato_fecha_matricula
+		dataType: string
+		lineageTag: aaa91699-2eee-48e0-b65c-c0cd3f06b3c0
+		summarizeBy: none
+		sourceColumn: formato_fecha_matricula
+
+		annotation SummarizationSetBy = User
+
+	column fecha_solicitud_dt
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fd0fb985-2ebd-48dd-93cc-068a96825e1d
+		summarizeBy: none
+		sourceColumn: fecha_solicitud_dt
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column fecha_matricula_dt
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b5b5f7d8-cf10-4cae-8cdf-b169731ecf69
+		summarizeBy: none
+		sourceColumn: fecha_matricula_dt
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column mes_solicitud
+		dataType: string
+		lineageTag: caabba6e-be8d-4a23-b072-674d7bdfa86b
+		summarizeBy: none
+		sourceColumn: mes_solicitud
+
+		annotation SummarizationSetBy = User
+
+	column matriculado_etiqueta_exacta
+		dataType: int64
+		formatString: 0
+		lineageTag: a3d358b1-6e6d-4c85-a4f2-89303a2d2ade
+		summarizeBy: none
+		sourceColumn: matriculado_etiqueta_exacta
+
+		annotation SummarizationSetBy = User
+
+	column 'periodo_codigo'
+		dataType: int64
+		formatString: 0
+		lineageTag: cea09799-7e32-47d5-84b8-ad9d11a53fd8
+		summarizeBy: none
+		sourceColumn: periodo_codigo
+
+		annotation SummarizationSetBy = User
+
+	partition Admisiones_Limpia = m
+		mode: import
+		source =
+				let
+				    Origen = Admisiones_Original,
+				    SinDuplicados = Table.Distinct(Origen),
+				    Categoricas = {"programa", "modalidad", "estado_proceso", "documentos_completos", "ciudad_residencia", "asesor", "periodo_academico"},
+				    Recortado = Table.TransformColumns(SinDuplicados, List.Transform(Categoricas, each {_, Text.Trim, type text})),
+				    Reglas = Table.ToRows(Table.SelectColumns(Reglas_Unificacion, {"columna", "valor_original", "valor_nuevo"})),
+				    Unificado = List.Accumulate(Reglas, Recortado, (tabla, r) => Table.ReplaceValue(tabla, r{1}, r{2}, Replacer.ReplaceValue, {r{0}})),
+				    // periodo_academico conserva el texto de origen; el código entero sale de Periodo_Codigos
+				    ConPeriodo = CodificarPeriodo(Unificado)
+				in
+				    ConPeriodo
+
+	annotation PBI_ResultType = Table
+

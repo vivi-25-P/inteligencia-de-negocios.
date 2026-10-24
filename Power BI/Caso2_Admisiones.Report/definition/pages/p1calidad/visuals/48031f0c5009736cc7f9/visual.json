@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "48031f0c5009736cc7f9",
+  "position": {
+    "x": 324.41952562774122,
+    "y": 10.465145987991653,
+    "z": 0,
+    "height": 120.93057586123687,
+    "width": 300.0008516557607
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "IDs distintos"
+                }
+              },
+              "queryRef": "Admisiones_Original.IDs distintos",
+              "nativeQueryRef": "IDs distintos"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'registro_id distintos'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

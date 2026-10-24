@@ -1,0 +1,129 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "1a4363015c99049f501a",
+  "position": {
+    "x": 10.465145987991653,
+    "y": 565.11788335154927,
+    "z": 0,
+    "height": 137.20969184255722,
+    "width": 410.466281529006
+  },
+  "visual": {
+    "visualType": "multiRowCard",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Matriculados con documentos incompletos"
+                }
+              },
+              "queryRef": "Admisiones_Original.Matriculados con documentos incompletos",
+              "nativeQueryRef": "Matriculados con documentos incompletos"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "No matriculados con valor"
+                }
+              },
+              "queryRef": "Admisiones_Original.No matriculados con valor",
+              "nativeQueryRef": "No matriculados con valor"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Matriculados sin valor"
+                }
+              },
+              "queryRef": "Admisiones_Original.Matriculados sin valor",
+              "nativeQueryRef": "Matriculados sin valor"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Periodo 2025-2 con solicitud 2026"
+                }
+              },
+              "queryRef": "Admisiones_Original.Periodo 2025-2 con solicitud 2026",
+              "nativeQueryRef": "Periodo 2025-2 con solicitud 2026"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Puntajes Pendiente"
+                }
+              },
+              "queryRef": "Admisiones_Original.Puntajes Pendiente",
+              "nativeQueryRef": "Puntajes Pendiente"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Valores por definir"
+                }
+              },
+              "queryRef": "Admisiones_Original.Valores por definir",
+              "nativeQueryRef": "Valores por definir"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Inconsistencias y valores no numéricos'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

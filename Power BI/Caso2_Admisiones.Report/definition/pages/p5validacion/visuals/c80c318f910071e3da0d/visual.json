@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "c80c318f910071e3da0d",
+  "position": {
+    "x": 954.65387290457193,
+    "y": 10.465145987991653,
+    "z": 0,
+    "height": 127.90733985323132,
+    "width": 315.11717363841535
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "Pasos validados OK"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.Pasos validados OK",
+              "nativeQueryRef": "Pasos validados OK"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Pasos con validación OK'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

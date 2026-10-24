@@ -1,0 +1,145 @@
+table Duplicados
+	lineageTag: d7713d2a-5157-404e-826c-6acac48286be
+
+	column registro_id
+		dataType: string
+		lineageTag: 1aa6bbb2-53f0-4a9f-a603-77f8445919e5
+		summarizeBy: none
+		sourceColumn: registro_id
+
+		annotation SummarizationSetBy = User
+
+	column aspirante_id
+		dataType: string
+		lineageTag: 4a320a28-a978-4d5c-94c9-df7741a2d61b
+		summarizeBy: none
+		sourceColumn: aspirante_id
+
+		annotation SummarizationSetBy = User
+
+	column fecha_solicitud
+		dataType: string
+		lineageTag: 7838eeac-865b-48d4-ba10-d751387c20a8
+		summarizeBy: none
+		sourceColumn: fecha_solicitud
+
+		annotation SummarizationSetBy = User
+
+	column programa
+		dataType: string
+		lineageTag: 9c660388-5a53-4d67-914c-a5500ab10afb
+		summarizeBy: none
+		sourceColumn: programa
+
+		annotation SummarizationSetBy = User
+
+	column modalidad
+		dataType: string
+		lineageTag: a22b005a-5226-4702-8ee7-bde9abe223ed
+		summarizeBy: none
+		sourceColumn: modalidad
+
+		annotation SummarizationSetBy = User
+
+	column canal_captacion
+		dataType: string
+		lineageTag: df8d5883-902a-45f4-b613-9bd4940e877c
+		summarizeBy: none
+		sourceColumn: canal_captacion
+
+		annotation SummarizationSetBy = User
+
+	column estado_proceso
+		dataType: string
+		lineageTag: ed1cb8fd-ad8c-4ce0-8254-7af402cf94ea
+		summarizeBy: none
+		sourceColumn: estado_proceso
+
+		annotation SummarizationSetBy = User
+
+	column puntaje_admision
+		dataType: string
+		lineageTag: be7a6812-baa3-40a1-aef3-4b7d72383813
+		summarizeBy: none
+		sourceColumn: puntaje_admision
+
+		annotation SummarizationSetBy = User
+
+	column documentos_completos
+		dataType: string
+		lineageTag: f0ce2e60-3abd-4ca9-901e-5c30866f372f
+		summarizeBy: none
+		sourceColumn: documentos_completos
+
+		annotation SummarizationSetBy = User
+
+	column valor_matricula_cop
+		dataType: string
+		lineageTag: 4f383d00-ea0e-44f2-8ff0-7c2de35a0543
+		summarizeBy: none
+		sourceColumn: valor_matricula_cop
+
+		annotation SummarizationSetBy = User
+
+	column ciudad_residencia
+		dataType: string
+		lineageTag: f46e142b-5b05-4673-8428-bf3568705885
+		summarizeBy: none
+		sourceColumn: ciudad_residencia
+
+		annotation SummarizationSetBy = User
+
+	column asesor
+		dataType: string
+		lineageTag: b2f2be79-67b4-45d4-abe4-a7d24a50b6f9
+		summarizeBy: none
+		sourceColumn: asesor
+
+		annotation SummarizationSetBy = User
+
+	column fecha_matricula
+		dataType: string
+		lineageTag: e2db3bc0-09c2-4aae-aa52-ac5e7c6ad614
+		summarizeBy: none
+		sourceColumn: fecha_matricula
+
+		annotation SummarizationSetBy = User
+
+	column correo
+		dataType: string
+		lineageTag: de6792c9-2e6c-4183-83e9-14d58393de99
+		summarizeBy: none
+		sourceColumn: correo
+
+		annotation SummarizationSetBy = User
+
+	column periodo_academico
+		dataType: string
+		lineageTag: 4a053890-ec8e-453d-b734-ae696b46ea7a
+		summarizeBy: none
+		sourceColumn: periodo_academico
+
+		annotation SummarizationSetBy = User
+
+	column veces
+		dataType: int64
+		formatString: #,0
+		lineageTag: 25806d51-405e-4498-a7c7-53a57066e19c
+		summarizeBy: none
+		sourceColumn: veces
+
+		annotation SummarizationSetBy = User
+
+	partition Duplicados = m
+		mode: import
+		source =
+				let
+				    Origen = Admisiones_Original,
+				    Columnas = List.FirstN(Table.ColumnNames(Origen), 15),
+				    Agrupado = Table.Group(Table.SelectColumns(Origen, Columnas), Columnas, {{"veces", each Table.RowCount(_), Int64.Type}}),
+				    Repetidas = Table.SelectRows(Agrupado, each [veces] > 1)
+				in
+				    Repetidas
+
+	annotation PBI_ResultType = Table
+

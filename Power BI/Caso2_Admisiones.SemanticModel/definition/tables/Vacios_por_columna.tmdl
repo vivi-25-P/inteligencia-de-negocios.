@@ -1,0 +1,59 @@
+table Vacios_por_columna
+	lineageTag: d55ce305-569a-4f75-9bb3-7f69f0518d3f
+
+	column columna
+		dataType: string
+		lineageTag: 28734431-dcec-427e-8990-6db384b2badd
+		summarizeBy: none
+		sourceColumn: columna
+
+		annotation SummarizationSetBy = User
+
+	column vacios
+		dataType: int64
+		formatString: #,0
+		lineageTag: 697baaae-89bf-4ed2-bcc0-ec66102bb660
+		summarizeBy: none
+		sourceColumn: vacios
+
+		annotation SummarizationSetBy = User
+
+	column distintos
+		dataType: int64
+		formatString: #,0
+		lineageTag: 35d0a329-a8cb-4b13-b573-7aefed1711a0
+		summarizeBy: none
+		sourceColumn: distintos
+
+		annotation SummarizationSetBy = User
+
+	column porcentaje_vacios
+		dataType: double
+		formatString: 0.00%
+		lineageTag: cb3d226c-df5b-44b4-8963-7320fba52a9b
+		summarizeBy: none
+		sourceColumn: porcentaje_vacios
+
+		annotation SummarizationSetBy = User
+
+	partition Vacios_por_columna = m
+		mode: import
+		source =
+				let
+				    Origen = Admisiones_Original,
+				    Total = Table.RowCount(Origen),
+				    Columnas = List.FirstN(Table.ColumnNames(Origen), 15),
+				    Filas = List.Transform(Columnas, (c) =>
+				        let valores = Table.Column(Origen, c) in
+				        [
+				            columna = c,
+				            vacios = List.Count(List.Select(valores, each _ = null or Text.Trim(_) = "")),
+				            distintos = List.Count(List.Distinct(valores))
+				        ]),
+				    Tabla = Table.FromRecords(Filas, type table [columna = text, vacios = Int64.Type, distintos = Int64.Type]),
+				    Porcentaje = Table.AddColumn(Tabla, "porcentaje_vacios", each [vacios] / Total, Percentage.Type)
+				in
+				    Porcentaje
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,37 @@
+table 'Periodo_Codigos'
+	lineageTag: c981809e-a508-40f6-a8cf-245a7e657f97
+
+	column 'valor_original'
+		dataType: string
+		lineageTag: a29639c0-e8a9-436c-824b-ad0e545d9853
+		summarizeBy: none
+		sourceColumn: valor_original
+
+		annotation SummarizationSetBy = User
+
+	column 'periodo_codigo'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e956d7f-236b-445b-83d0-b054cf5b801b
+		summarizeBy: none
+		sourceColumn: periodo_codigo
+
+		annotation SummarizationSetBy = User
+
+	partition 'Periodo_Codigos' = m
+		mode: import
+		source =
+				let
+				    Equivalencias = #table(
+				        type table [valor_original = text, periodo_codigo = Int64.Type],
+				        {
+				            {"2025-2", 20252},
+				            {"2026-I", 20261},
+				            {"2026-1", 20261},
+				            {"2026 II", 20262},
+				            {"2026-2", 20262}
+				        })
+				in
+				    Equivalencias
+
+	annotation PBI_ResultType = Table

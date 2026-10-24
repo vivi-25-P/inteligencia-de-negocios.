@@ -1,0 +1,129 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "9aedca9e92875fc4d893",
+  "position": {
+    "x": 840,
+    "y": 360,
+    "z": 0,
+    "height": 350,
+    "width": 430
+  },
+  "visual": {
+    "visualType": "multiRowCard",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Valor - n"
+                }
+              },
+              "queryRef": "Admisiones_Original.Valor - n",
+              "nativeQueryRef": "Valor - n"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Valor - mínimo"
+                }
+              },
+              "queryRef": "Admisiones_Original.Valor - mínimo",
+              "nativeQueryRef": "Valor - mínimo"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Valor - máximo"
+                }
+              },
+              "queryRef": "Admisiones_Original.Valor - máximo",
+              "nativeQueryRef": "Valor - máximo"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Valor - promedio"
+                }
+              },
+              "queryRef": "Admisiones_Original.Valor - promedio",
+              "nativeQueryRef": "Valor - promedio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Valor - mediana"
+                }
+              },
+              "queryRef": "Admisiones_Original.Valor - mediana",
+              "nativeQueryRef": "Valor - mediana"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Valor - atípicos"
+                }
+              },
+              "queryRef": "Admisiones_Original.Valor - atípicos",
+              "nativeQueryRef": "Valor - atípicos"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Estadísticas del valor de matrícula'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

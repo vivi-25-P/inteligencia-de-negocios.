@@ -1,0 +1,124 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "76cec54d45142493ae87",
+  "position": {
+    "x": 10,
+    "y": 350,
+    "z": 0,
+    "height": 360,
+    "width": 1260
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Canales"
+                    }
+                  },
+                  "Property": "canal_captacion"
+                }
+              },
+              "queryRef": "Canales.canal_captacion",
+              "nativeQueryRef": "canal_captacion",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "% matriculado solo etiqueta exacta"
+                }
+              },
+              "queryRef": "Admisiones_Original.% matriculado solo etiqueta exacta",
+              "nativeQueryRef": "% matriculado solo etiqueta exacta"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Limpia"
+                    }
+                  },
+                  "Property": "% matriculado limpio"
+                }
+              },
+              "queryRef": "Admisiones_Limpia.% matriculado limpio",
+              "nativeQueryRef": "% matriculado limpio"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Admisiones_Limpia"
+                  }
+                },
+                "Property": "% matriculado limpio"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'% de registros matriculados por canal: solo la etiqueta «Matriculado» frente al estado unificado'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

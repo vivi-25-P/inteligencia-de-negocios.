@@ -1,0 +1,55 @@
+expression FormatoFecha =
+		(t as nullable text) as text =>
+		let
+		    s = if t = null then "" else Text.Trim(t),
+		    primero = Text.BeforeDelimiter(s, if Text.Contains(s, "/") then "/" else "-"),
+		    partes = Text.Split(s, "-"),
+		    resultado =
+		        if s = "" then "Vacío"
+		        else if s = "No aplica" then "No aplica"
+		        else if Text.Contains(s, "/") then (if Text.Length(primero) = 4 then "aaaa/mm/dd" else "dd/mm/aaaa")
+		        else if Text.Length(primero) = 4 then "aaaa-mm-dd"
+		        else if List.Contains({"0".."9"}, Text.Start(partes{1}, 1)) then "mm-dd-aaaa"
+		        else "dd-Mmm-aaaa"
+		in
+		    resultado
+	lineageTag: 2c3c892d-e677-4658-a3e9-23062201dd36
+
+	annotation PBI_ResultType = Function
+
+expression ConvertirFecha =
+		(t as nullable text) as nullable date =>
+		let
+		    s = if t = null then "" else Text.Trim(t),
+		    meses = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"},
+		    conBarra = () =>
+		        let p = Text.Split(s, "/") in
+		        if Text.Length(p{0}) = 4
+		            then #date(Number.From(p{0}), Number.From(p{1}), Number.From(p{2}))
+		            else #date(Number.From(p{2}), Number.From(p{1}), Number.From(p{0})),
+		    conGuion = () =>
+		        let p = Text.Split(s, "-") in
+		        if Text.Length(p{0}) = 4
+		            then #date(Number.From(p{0}), Number.From(p{1}), Number.From(p{2}))
+		        else if List.Contains({"0".."9"}, Text.Start(p{1}, 1))
+		            then #date(Number.From(p{2}), Number.From(p{0}), Number.From(p{1}))
+		            else #date(Number.From(p{2}), List.PositionOf(meses, Text.Proper(p{1})) + 1, Number.From(p{0})),
+		    resultado =
+		        if s = "" or s = "No aplica" then null
+		        else try (if Text.Contains(s, "/") then conBarra() else conGuion()) otherwise null
+		in
+		    resultado
+	lineageTag: e28eaece-ba60-4cd4-96b2-589629570782
+
+	annotation PBI_ResultType = Function
+
+expression CodificarPeriodo =
+		(tabla as table) as table =>
+		let
+		    Mapa = Record.FromList(Periodo_Codigos[periodo_codigo], Periodo_Codigos[valor_original]),
+		    ConCodigo = Table.AddColumn(tabla, "periodo_codigo", each Record.FieldOrDefault(Mapa, Text.Trim([periodo_academico]), null), Int64.Type)
+		in
+		    ConCodigo
+	lineageTag: 7cac3b2b-4fee-42ff-bca9-441e599c9f71
+
+	annotation PBI_ResultType = Function

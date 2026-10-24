@@ -1,0 +1,61 @@
+table Reglas_Unificacion
+	lineageTag: 89b1b3bb-f7c9-43d7-a257-e2dfc977673a
+
+	column orden
+		dataType: int64
+		formatString: 0
+		lineageTag: 0e1bede0-b126-4148-82bf-1eafff45b7fe
+		summarizeBy: none
+		sourceColumn: orden
+
+		annotation SummarizationSetBy = User
+
+	column columna
+		dataType: string
+		lineageTag: f9264688-cf29-4b88-b0ca-6f64b3c9e955
+		summarizeBy: none
+		sourceColumn: columna
+
+		annotation SummarizationSetBy = User
+
+	column valor_original
+		dataType: string
+		lineageTag: 5831d406-6a4d-4ced-bdca-872bac4d3d75
+		summarizeBy: none
+		sourceColumn: valor_original
+
+		annotation SummarizationSetBy = User
+
+	column valor_nuevo
+		dataType: string
+		lineageTag: 149f7483-92c2-4a67-b1fa-b309610f46d5
+		summarizeBy: none
+		sourceColumn: valor_nuevo
+
+		annotation SummarizationSetBy = User
+
+	partition Reglas_Unificacion = m
+		mode: import
+		source =
+				let
+				    Reglas = #table(
+				        type table [orden = Int64.Type, columna = text, valor_original = text, valor_nuevo = text],
+				        {
+				            {1, "programa", "DERECHO", "Derecho"},
+				            {2, "programa", "Especializacion en Data Analytics", "Especialización en Data Analytics"},
+				            {3, "programa", "", "Sin programa registrado"},
+				            {4, "modalidad", "VIRTUAL", "Virtual"},
+				            {5, "modalidad", "presencial", "Presencial"},
+				            {6, "estado_proceso", "ADMITIDO", "Admitido"},
+				            {7, "estado_proceso", "matriculado", "Matriculado"},
+				            {8, "documentos_completos", "sí", "Sí"},
+				            {9, "documentos_completos", "SI", "Sí"},
+				            {10, "ciudad_residencia", "BOGOTA", "Bogotá"},
+				            {11, "ciudad_residencia", "Popayan", "Popayán"},
+				            {12, "asesor", "asesor 1", "Asesor 1"}
+				        })
+				in
+				    Reglas
+
+	annotation PBI_ResultType = Table
+

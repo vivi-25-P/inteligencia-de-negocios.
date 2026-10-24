@@ -1,0 +1,337 @@
+table Admisiones_Original
+	lineageTag: 21b24db0-0866-42c3-937a-68e96d3a3d73
+
+	measure Registros = COUNTROWS(Admisiones_Original)
+		formatString: #,0
+		lineageTag: 7d275712-a9ba-472e-9def-ea131f2c91fd
+
+	measure '% del total' = DIVIDE([Registros], CALCULATE([Registros], ALL(Admisiones_Original)))
+		formatString: 0.00%
+		lineageTag: d1e574e2-0c18-4e34-babf-5de27994cc85
+
+	measure 'IDs distintos' = DISTINCTCOUNT(Admisiones_Original[registro_id])
+		formatString: #,0
+		lineageTag: 53818fae-a779-4b90-a471-0beeacf6a679
+
+	measure 'Aspirantes distintos' = CALCULATE(DISTINCTCOUNT(Admisiones_Original[aspirante_id]), Admisiones_Original[aspirante_id] <> "")
+		formatString: #,0
+		lineageTag: 3419ebe0-c834-4429-b00e-94cc0eaf5145
+
+	measure 'Filas en duplicados' = SUMX(Duplicados, Duplicados[veces])
+		formatString: #,0
+		lineageTag: 966e9e87-a9b4-420e-ab52-4fa06871cd4a
+
+	measure 'Repeticiones adicionales' = SUMX(Duplicados, Duplicados[veces] - 1)
+		formatString: #,0
+		lineageTag: 12b2c8a4-1e11-40e2-9d04-2928bc470df4
+
+	measure 'Puntajes Pendiente' = CALCULATE([Registros], Admisiones_Original[puntaje_admision] = "Pendiente")
+		formatString: #,0
+		lineageTag: 71af77ab-17c0-4a14-80c4-a4437c3bfae3
+
+	measure 'Valores por definir' = CALCULATE([Registros], Admisiones_Original[valor_matricula_cop] = "por definir")
+		formatString: #,0
+		lineageTag: 9817dcd3-cd61-4ae7-a55f-504fae39c374
+
+	measure 'Fecha matrícula No aplica' = CALCULATE([Registros], Admisiones_Original[fecha_matricula] = "No aplica")
+		formatString: #,0
+		lineageTag: 9e23c9fc-9e60-487b-a541-a9573f5c27db
+
+	measure Matriculados = CALCULATE([Registros], Admisiones_Original[estado_proceso] = "Matriculado")
+		formatString: #,0
+		lineageTag: 7c8ce6bc-5746-4a08-a7ee-cdf2f4809f25
+
+	measure 'Matriculados con documentos incompletos' = CALCULATE([Registros], Admisiones_Original[estado_proceso] = "Matriculado", Admisiones_Original[documentos_completos] IN {"No", "Pendiente"})
+		formatString: #,0
+		lineageTag: df0dcaab-3791-4347-9e17-6871d54fa910
+
+	measure 'No matriculados con valor' = CALCULATE([Registros], Admisiones_Original[estado_proceso] <> "Matriculado", NOT ISBLANK(Admisiones_Original[valor_num]))
+		formatString: #,0
+		lineageTag: 23725794-9be5-4051-8752-cecf41171bee
+
+	measure 'Matriculados sin valor' = CALCULATE([Registros], Admisiones_Original[estado_proceso] = "Matriculado", ISBLANK(Admisiones_Original[valor_num]))
+		formatString: #,0
+		lineageTag: c5299bf5-1e09-47f6-bb5a-7b00a72763cf
+
+	measure 'Periodo 2025-2 con solicitud 2026' = COUNTROWS(FILTER(Admisiones_Original, Admisiones_Original[periodo_academico] = "2025-2" && YEAR(Admisiones_Original[fecha_solicitud_dt]) = 2026)) + 0
+		formatString: #,0
+		lineageTag: eeee1317-2fd3-4496-8539-719ed6d1f42b
+
+	measure '% matriculado solo etiqueta exacta' = DIVIDE(SUM(Admisiones_Original[matriculado_etiqueta_exacta]), [Registros])
+		formatString: 0.00%
+		lineageTag: 4704a9ce-17a3-45a1-bc7e-17c76fb8eec1
+
+	measure 'Puntaje - n' = COUNT(Admisiones_Original[puntaje_num])
+		formatString: #,0
+		lineageTag: 69d0a94e-5ff0-40a3-b4ac-852dd9108e9f
+
+	measure 'Puntaje - mínimo' = MIN(Admisiones_Original[puntaje_num])
+		formatString: 0.00
+		lineageTag: 67fdb1ea-31c5-4b84-870e-ea6d573caaa9
+
+	measure 'Puntaje - máximo' = MAX(Admisiones_Original[puntaje_num])
+		formatString: 0.00
+		lineageTag: 1d4f104b-3b04-4e4c-a031-fc50d30bc88c
+
+	measure 'Puntaje - promedio' = AVERAGE(Admisiones_Original[puntaje_num])
+		formatString: 0.00
+		lineageTag: a8159f6a-620c-4f28-8d83-8663b55e2a67
+
+	measure 'Puntaje - mediana' = MEDIAN(Admisiones_Original[puntaje_num])
+		formatString: 0.00
+		lineageTag: 3467c9e3-3cf7-4d67-811c-a9672aa7e42a
+
+	measure 'Puntaje - atípicos' =
+			VAR Datos = FILTER(Admisiones_Original, NOT ISBLANK(Admisiones_Original[puntaje_num]))
+			VAR Q1 = PERCENTILEX.INC(Datos, Admisiones_Original[puntaje_num], 0.25)
+			VAR Q3 = PERCENTILEX.INC(Datos, Admisiones_Original[puntaje_num], 0.75)
+			VAR RIC = Q3 - Q1
+			RETURN
+			    COUNTROWS(FILTER(Datos, Admisiones_Original[puntaje_num] < Q1 - 1.5 * RIC || Admisiones_Original[puntaje_num] > Q3 + 1.5 * RIC)) + 0
+		formatString: #,0
+		lineageTag: 63dd4824-dd03-42d8-bafc-72dcd10db684
+
+	measure 'Valor - n' = COUNT(Admisiones_Original[valor_num])
+		formatString: #,0
+		lineageTag: 3ef3f527-06c4-444e-8484-41a7bcb82b40
+
+	measure 'Valor - mínimo' = MIN(Admisiones_Original[valor_num])
+		formatString: \$#,0.00
+		lineageTag: 10e372ce-0a6a-44f7-b84e-f8ceb4f9be7b
+
+	measure 'Valor - máximo' = MAX(Admisiones_Original[valor_num])
+		formatString: \$#,0.00
+		lineageTag: 57be49cb-9c39-48cc-adca-4ffe3c11ee79
+
+	measure 'Valor - promedio' = AVERAGE(Admisiones_Original[valor_num])
+		formatString: \$#,0.00
+		lineageTag: 4b1f33ec-5c30-499d-b368-708ec80d3994
+
+	measure 'Valor - mediana' = MEDIAN(Admisiones_Original[valor_num])
+		formatString: \$#,0.00
+		lineageTag: 802d43f5-0078-451e-b53b-27054c1ee379
+
+	measure 'Valor - atípicos' =
+			VAR Datos = FILTER(Admisiones_Original, NOT ISBLANK(Admisiones_Original[valor_num]))
+			VAR Q1 = PERCENTILEX.INC(Datos, Admisiones_Original[valor_num], 0.25)
+			VAR Q3 = PERCENTILEX.INC(Datos, Admisiones_Original[valor_num], 0.75)
+			VAR RIC = Q3 - Q1
+			RETURN
+			    COUNTROWS(FILTER(Datos, Admisiones_Original[valor_num] < Q1 - 1.5 * RIC || Admisiones_Original[valor_num] > Q3 + 1.5 * RIC)) + 0
+		formatString: #,0
+		lineageTag: c1970f07-dc24-46b9-8cd2-64c8f8625739
+
+	column registro_id
+		dataType: string
+		lineageTag: a883d149-03d1-4d72-a43f-af3b4d8b5439
+		summarizeBy: none
+		sourceColumn: registro_id
+
+		annotation SummarizationSetBy = User
+
+	column aspirante_id
+		dataType: string
+		lineageTag: 552e24b4-9d68-4994-8b3a-920750de11b7
+		summarizeBy: none
+		sourceColumn: aspirante_id
+
+		annotation SummarizationSetBy = User
+
+	column fecha_solicitud
+		dataType: string
+		lineageTag: c4154acc-b183-4d12-a969-b720d44d975d
+		summarizeBy: none
+		sourceColumn: fecha_solicitud
+
+		annotation SummarizationSetBy = User
+
+	column programa
+		dataType: string
+		lineageTag: 0bf34982-ec65-43c1-9f3c-4d7bdf1a04d2
+		summarizeBy: none
+		sourceColumn: programa
+
+		annotation SummarizationSetBy = User
+
+	column modalidad
+		dataType: string
+		lineageTag: 013deb49-6706-4ddc-b4e5-70cc03d4f0d6
+		summarizeBy: none
+		sourceColumn: modalidad
+
+		annotation SummarizationSetBy = User
+
+	column canal_captacion
+		dataType: string
+		lineageTag: bd80faa4-5010-41da-af58-c6a4571a5bc4
+		summarizeBy: none
+		sourceColumn: canal_captacion
+
+		annotation SummarizationSetBy = User
+
+	column estado_proceso
+		dataType: string
+		lineageTag: e65fd1b1-b4da-4e6a-b261-7ecaff1fc6cd
+		summarizeBy: none
+		sourceColumn: estado_proceso
+
+		annotation SummarizationSetBy = User
+
+	column puntaje_admision
+		dataType: string
+		lineageTag: c382d92b-6f1d-49e4-b4e4-a3001fe7ae4c
+		summarizeBy: none
+		sourceColumn: puntaje_admision
+
+		annotation SummarizationSetBy = User
+
+	column documentos_completos
+		dataType: string
+		lineageTag: a5effd1b-ac5c-4f56-9248-e076446e77e7
+		summarizeBy: none
+		sourceColumn: documentos_completos
+
+		annotation SummarizationSetBy = User
+
+	column valor_matricula_cop
+		dataType: string
+		lineageTag: 187876de-c590-4eea-99ac-4e1430b28299
+		summarizeBy: none
+		sourceColumn: valor_matricula_cop
+
+		annotation SummarizationSetBy = User
+
+	column ciudad_residencia
+		dataType: string
+		lineageTag: 6c0fe742-3cfd-4d8a-b1d0-ca5e02d34c3e
+		summarizeBy: none
+		sourceColumn: ciudad_residencia
+
+		annotation SummarizationSetBy = User
+
+	column asesor
+		dataType: string
+		lineageTag: 21f7d7ca-1f01-445d-94ad-a252928eda08
+		summarizeBy: none
+		sourceColumn: asesor
+
+		annotation SummarizationSetBy = User
+
+	column fecha_matricula
+		dataType: string
+		lineageTag: a3c61234-314a-481d-9e42-ac6be326f814
+		summarizeBy: none
+		sourceColumn: fecha_matricula
+
+		annotation SummarizationSetBy = User
+
+	column correo
+		dataType: string
+		lineageTag: dc912338-c3f2-4c9c-8de4-8ab933b807aa
+		summarizeBy: none
+		sourceColumn: correo
+
+		annotation SummarizationSetBy = User
+
+	column periodo_academico
+		dataType: string
+		lineageTag: 505ee801-ebb4-4812-b3b7-b71431041a6f
+		summarizeBy: none
+		sourceColumn: periodo_academico
+
+		annotation SummarizationSetBy = User
+
+	column puntaje_num
+		dataType: double
+		formatString: 0
+		lineageTag: 9968bcad-a4ca-42ad-bcb1-b11c777de860
+		summarizeBy: none
+		sourceColumn: puntaje_num
+
+		annotation SummarizationSetBy = User
+
+	column valor_num
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 6fe9e4b3-7012-41ce-8391-0f4a1c657f24
+		summarizeBy: none
+		sourceColumn: valor_num
+
+		annotation SummarizationSetBy = User
+
+	column formato_fecha_solicitud
+		dataType: string
+		lineageTag: b707a428-92ca-4b15-8a1c-e321f6c67a8f
+		summarizeBy: none
+		sourceColumn: formato_fecha_solicitud
+
+		annotation SummarizationSetBy = User
+
+	column formato_fecha_matricula
+		dataType: string
+		lineageTag: d8f55f26-f3a1-44bd-86b9-befde082fa1a
+		summarizeBy: none
+		sourceColumn: formato_fecha_matricula
+
+		annotation SummarizationSetBy = User
+
+	column fecha_solicitud_dt
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f825a064-88e2-4e64-ae98-efc6808bdda9
+		summarizeBy: none
+		sourceColumn: fecha_solicitud_dt
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column fecha_matricula_dt
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ca4705df-4783-4c1f-a0a2-3f6934ef9c99
+		summarizeBy: none
+		sourceColumn: fecha_matricula_dt
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column mes_solicitud
+		dataType: string
+		lineageTag: d7ae9d07-23b5-4884-94ca-4be49bf437f0
+		summarizeBy: none
+		sourceColumn: mes_solicitud
+
+		annotation SummarizationSetBy = User
+
+	column matriculado_etiqueta_exacta
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a66ee5b-4726-429d-9da1-2cc2eff89137
+		summarizeBy: none
+		sourceColumn: matriculado_etiqueta_exacta
+
+		annotation SummarizationSetBy = User
+
+	partition Admisiones_Original = m
+		mode: import
+		source =
+				let
+				    Ruta = "C:\Users\USUARIO\Documents\ESPECIALIZACIÓN\03. Inteligencia_de_negocios\Caso 2 - Admisiones universitarias\Caso2_Admisiones_Universitarias.csv",
+				    Origen = Csv.Document(File.Contents(Ruta), [Delimiter = ",", Columns = 15, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Encabezados = Table.PromoteHeaders(Origen, [PromoteAllScalars = true]),
+				    ComoTexto = Table.TransformColumnTypes(Encabezados, List.Transform(Table.ColumnNames(Encabezados), each {_, type text})),
+				    PuntajeNum = Table.AddColumn(ComoTexto, "puntaje_num", each try Number.FromText([puntaje_admision], "en-US") otherwise null, type nullable number),
+				    ValorNum = Table.AddColumn(PuntajeNum, "valor_num", each try Number.FromText([valor_matricula_cop], "en-US") otherwise null, type nullable number),
+				    FormatoSol = Table.AddColumn(ValorNum, "formato_fecha_solicitud", each FormatoFecha([fecha_solicitud]), type text),
+				    FormatoMat = Table.AddColumn(FormatoSol, "formato_fecha_matricula", each FormatoFecha([fecha_matricula]), type text),
+				    FechaSol = Table.AddColumn(FormatoMat, "fecha_solicitud_dt", each ConvertirFecha([fecha_solicitud]), type nullable date),
+				    FechaMat = Table.AddColumn(FechaSol, "fecha_matricula_dt", each ConvertirFecha([fecha_matricula]), type nullable date),
+				    MesSol = Table.AddColumn(FechaMat, "mes_solicitud", each if [fecha_solicitud_dt] = null then null else Date.ToText([fecha_solicitud_dt], "yyyy-MM"), type nullable text),
+				    MatriculadoExacto = Table.AddColumn(MesSol, "matriculado_etiqueta_exacta", each if [estado_proceso] = "Matriculado" then 1 else 0, Int64.Type)
+				in
+				    MatriculadoExacto
+
+	annotation PBI_ResultType = Table
+

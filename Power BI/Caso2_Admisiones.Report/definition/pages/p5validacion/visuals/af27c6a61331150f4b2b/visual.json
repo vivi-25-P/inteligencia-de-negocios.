@@ -1,0 +1,118 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "af27c6a61331150f4b2b",
+  "position": {
+    "x": 10.465145987991653,
+    "y": 506.97818341826229,
+    "z": 0,
+    "height": 180,
+    "width": 1260
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Validacion_Columnas"
+                    }
+                  },
+                  "Property": "columna"
+                }
+              },
+              "queryRef": "Validacion_Columnas.columna",
+              "nativeQueryRef": "columna"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Validacion_Columnas"
+                    }
+                  },
+                  "Property": "distintos_antes"
+                }
+              },
+              "queryRef": "Validacion_Columnas.distintos_antes",
+              "nativeQueryRef": "distintos_antes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Validacion_Columnas"
+                    }
+                  },
+                  "Property": "distintos_despues"
+                }
+              },
+              "queryRef": "Validacion_Columnas.distintos_despues",
+              "nativeQueryRef": "distintos_despues"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Validacion_Columnas"
+                    }
+                  },
+                  "Property": "valores_despues"
+                }
+              },
+              "queryRef": "Validacion_Columnas.valores_despues",
+              "nativeQueryRef": "valores_despues"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Validacion_Columnas"
+                  }
+                },
+                "Property": "valores_despues"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Valores distintos por columna antes y después de la limpieza'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

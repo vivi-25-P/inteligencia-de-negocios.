@@ -1,0 +1,142 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "a075bded42da6f1f23d1",
+  "position": {
+    "x": 672.09493122879724,
+    "y": 141.86086783722018,
+    "z": 0,
+    "height": 254.65188570779691,
+    "width": 400.00113554101432
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "formato_fecha_solicitud"
+                }
+              },
+              "queryRef": "Admisiones_Original.formato_fecha_solicitud",
+              "nativeQueryRef": "formato_fecha_solicitud",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Admisiones_Original"
+                    }
+                  },
+                  "Property": "Registros"
+                }
+              },
+              "queryRef": "Admisiones_Original.Registros",
+              "nativeQueryRef": "Registros"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Admisiones_Original"
+                  }
+                },
+                "Property": "Registros"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Formatos de fecha_solicitud'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "46e0313837f165e84ff4",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Admisiones_Original"
+              }
+            },
+            "Property": "formato_fecha_solicitud"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "2893713c67f41917366a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Admisiones_Original"
+              }
+            },
+            "Property": "Registros"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

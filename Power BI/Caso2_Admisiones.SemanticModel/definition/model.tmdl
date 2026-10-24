@@ -1,0 +1,25 @@
+model Model
+	culture: es-CO
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-CO
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["FormatoFecha", "ConvertirFecha", "Admisiones_Original", "Frecuencias_Originales", "Duplicados", "Vacios_por_columna", "Admisiones_Limpia", "Canales", "Reglas_Unificacion", "Registro_Transformaciones", "Validacion_Columnas", "CodificarPeriodo", "Periodo_Codigos", "DimPeriodo"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Admisiones_Original
+ref table Frecuencias_Originales
+ref table Duplicados
+ref table Vacios_por_columna
+ref table Admisiones_Limpia
+ref table Canales
+ref table Reglas_Unificacion
+ref table Registro_Transformaciones
+ref table Validacion_Columnas
+ref table Periodo_Codigos
+ref table DimPeriodo

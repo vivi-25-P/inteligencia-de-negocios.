@@ -1,0 +1,11 @@
+relationship cd9e632b-6434-4f7c-97b9-677e73b8875d
+	fromColumn: Admisiones_Original.canal_captacion
+	toColumn: Canales.canal_captacion
+
+relationship 55944d20-f7d0-497f-b161-0c17c9b8c2df
+	fromColumn: Admisiones_Limpia.canal_captacion
+	toColumn: Canales.canal_captacion
+
+relationship a75013b0-b642-4839-8cab-0864a5f76944
+	fromColumn: Admisiones_Limpia.periodo_codigo
+	toColumn: DimPeriodo.periodo_codigo

@@ -1,0 +1,200 @@
+table Registro_Transformaciones
+	lineageTag: dcbfdd11-669d-49ee-94e4-1282fc8be0a4
+
+	measure 'Pasos registrados' = COUNTROWS(Registro_Transformaciones)
+		formatString: #,0
+		lineageTag: ae70f11a-ff3f-4ebf-a6ee-4d7966a319d8
+
+	measure 'Pasos validados OK' = CALCULATE(COUNTROWS(Registro_Transformaciones), Registro_Transformaciones[validacion] = "OK") + 0
+		formatString: #,0
+		lineageTag: c8869b4f-0f5a-4673-87bb-27e793e61f4b
+
+	measure 'Pasos por revisar' = [Pasos registrados] - [Pasos validados OK]
+		formatString: #,0
+		lineageTag: 5205e7ab-d1da-470a-8789-6576745d274a
+
+	column orden
+		dataType: int64
+		formatString: 0
+		lineageTag: a4afce1d-b117-45c5-9cdc-b2aafcfda4b1
+		summarizeBy: none
+		sourceColumn: orden
+
+		annotation SummarizationSetBy = User
+
+	column paso
+		dataType: string
+		lineageTag: f6618144-9c0f-4375-b51f-d998322a750a
+		summarizeBy: none
+		sourceColumn: paso
+
+		annotation SummarizationSetBy = User
+
+	column columna
+		dataType: string
+		lineageTag: 35eb2eca-0081-476d-94bc-8a89b799dcb2
+		summarizeBy: none
+		sourceColumn: columna
+
+		annotation SummarizationSetBy = User
+
+	column valor_original
+		dataType: string
+		lineageTag: 59ca4d17-f069-4803-84e6-86c354f3505a
+		summarizeBy: none
+		sourceColumn: valor_original
+
+		annotation SummarizationSetBy = User
+
+	column valor_nuevo
+		dataType: string
+		lineageTag: 4e35f8cf-3941-453a-ac2f-2cb3149e0717
+		summarizeBy: none
+		sourceColumn: valor_nuevo
+
+		annotation SummarizationSetBy = User
+
+	column registros_afectados
+		dataType: int64
+		formatString: #,0
+		lineageTag: b34cf4c2-3ada-4d76-aa01-f11626f1381b
+		summarizeBy: none
+		sourceColumn: registros_afectados
+
+		annotation SummarizationSetBy = User
+
+	column filas_antes
+		dataType: int64
+		formatString: #,0
+		lineageTag: 04b9390f-6c26-4f2f-ba36-60adce6d1d1a
+		summarizeBy: none
+		sourceColumn: filas_antes
+
+		annotation SummarizationSetBy = User
+
+	column filas_despues
+		dataType: int64
+		formatString: #,0
+		lineageTag: 96008ce7-3a1b-4e78-ad83-6b30dcf733dd
+		summarizeBy: none
+		sourceColumn: filas_despues
+
+		annotation SummarizationSetBy = User
+
+	column conteo_nuevo_antes
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3a7fa74b-9d3f-493b-b44b-0424828229bd
+		summarizeBy: none
+		sourceColumn: conteo_nuevo_antes
+
+		annotation SummarizationSetBy = User
+
+	column conteo_nuevo_despues
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1e946bd5-5d84-4579-910d-19b83db9c7f6
+		summarizeBy: none
+		sourceColumn: conteo_nuevo_despues
+
+		annotation SummarizationSetBy = User
+
+	column validacion
+		dataType: string
+		lineageTag: 626f02b7-759d-4fe7-9994-7b901053c75b
+		summarizeBy: none
+		sourceColumn: validacion
+
+		annotation SummarizationSetBy = User
+
+	partition Registro_Transformaciones = m
+		mode: import
+		source =
+				let
+				    Orig = Admisiones_Original,
+				    Categoricas = {"programa", "modalidad", "estado_proceso", "documentos_completos", "ciudad_residencia", "asesor", "periodo_academico"},
+				    Contar = (t as table, c as text, v as text) as number => List.Count(List.Select(Table.Column(t, c), each _ = v)),
+				    // 1. Duplicados exactos
+				    T1 = Table.Buffer(Table.Distinct(Orig)),
+				    FilaDup = [paso = "Eliminar filas duplicadas exactas", columna = "(todas)", valor_original = "Filas idénticas", valor_nuevo = "Una sola fila",
+				        registros_afectados = Table.RowCount(Orig) - Table.RowCount(T1), filas_antes = Table.RowCount(Orig), filas_despues = Table.RowCount(T1),
+				        conteo_nuevo_antes = null, conteo_nuevo_despues = null,
+				        validacion = if Table.RowCount(Table.Distinct(T1)) = Table.RowCount(T1) then "OK" else "Revisar"],
+				    // 2. Recorte de espacios
+				    T2 = Table.Buffer(Table.TransformColumns(T1, List.Transform(Categoricas, each {_, Text.Trim, type text}))),
+				    FilasTrim = List.Select(List.Transform(Categoricas, (c) => [paso = "Recortar espacios", columna = c,
+				        valor_original = "Espacios al inicio o al final", valor_nuevo = "Sin espacios",
+				        registros_afectados = List.Count(List.Select(Table.Column(T1, c), each _ <> Text.Trim(_))),
+				        filas_antes = Table.RowCount(T1), filas_despues = Table.RowCount(T2), conteo_nuevo_antes = null, conteo_nuevo_despues = null,
+				        validacion = if List.Count(List.Select(Table.Column(T2, c), each _ <> Text.Trim(_))) = 0 then "OK" else "Revisar"]),
+				        each [registros_afectados] > 0),
+				    // 3. Reglas de unificación (las mismas que usa Admisiones_Limpia)
+				    Reglas = Table.ToRows(Table.SelectColumns(Reglas_Unificacion, {"columna", "valor_original", "valor_nuevo"})),
+				    Acumulado = List.Accumulate(Reglas, [tabla = T2, filas = {}], (estado, r) =>
+				        let
+				            t = estado[tabla],
+				            afectados = Contar(t, r{0}, r{1}),
+				            antes = Contar(t, r{0}, r{2}),
+				            t2 = Table.Buffer(Table.ReplaceValue(t, r{1}, r{2}, Replacer.ReplaceValue, {r{0}})),
+				            despues = Contar(t2, r{0}, r{2}),
+				            restantes = Contar(t2, r{0}, r{1}),
+				            fila = [paso = "Unificar categoría", columna = r{0}, valor_original = if r{1} = "" then "(vacío)" else r{1}, valor_nuevo = r{2},
+				                registros_afectados = afectados, filas_antes = Table.RowCount(t), filas_despues = Table.RowCount(t2),
+				                conteo_nuevo_antes = antes, conteo_nuevo_despues = despues,
+				                validacion = if despues = antes + afectados and restantes = 0 then "OK" else "Revisar"]
+				        in
+				            [tabla = t2, filas = estado[filas] & {fila}]),
+				    Final = Acumulado[tabla],
+				    // 3b. Código entero del periodo: el texto de origen se conserva en periodo_academico
+				    FinalCod = Table.Buffer(CodificarPeriodo(Final)),
+				    FilasPeriodo = List.Transform(Table.ToRows(Periodo_Codigos), (p) =>
+				        let
+				            afectados = Contar(Final, "periodo_academico", p{0}),
+				            conCodigo = Table.RowCount(Table.SelectRows(FinalCod, each [periodo_academico] = p{0} and [periodo_codigo] = p{1})),
+				            totalCodigo = List.Count(List.Select(FinalCod[periodo_codigo], each _ = p{1}))
+				        in
+				            [paso = "Codificar periodo", columna = "periodo_academico", valor_original = p{0}, valor_nuevo = Text.From(p{1}),
+				             registros_afectados = afectados, filas_antes = Table.RowCount(Final), filas_despues = Table.RowCount(FinalCod),
+				             conteo_nuevo_antes = null, conteo_nuevo_despues = totalCodigo,
+				             validacion = if conCodigo = afectados then "OK" else "Revisar"]),
+				    SinCodigo = List.Count(List.Select(FinalCod[periodo_codigo], each _ = null)),
+				    FilaSinCodigo = [paso = "Comprobar códigos de periodo", columna = "periodo_codigo", valor_original = "Valores sin equivalencia",
+				        valor_nuevo = "Se señalan, sin código", registros_afectados = SinCodigo, filas_antes = Table.RowCount(FinalCod),
+				        filas_despues = Table.RowCount(FinalCod), conteo_nuevo_antes = null, conteo_nuevo_despues = null,
+				        validacion = if SinCodigo = 0 then "OK" else Text.From(SinCodigo) & " sin código"],
+				    // 4. Conversión de tipos: un error es un valor con contenido que no se pudo convertir
+				    Conversiones = {
+				        {"fecha_solicitud", "fecha_solicitud_dt", "Fecha", {}},
+				        {"fecha_matricula", "fecha_matricula_dt", "Fecha", {"No aplica"}},
+				        {"puntaje_admision", "puntaje_num", "Número", {"Pendiente"}},
+				        {"valor_matricula_cop", "valor_num", "Número", {"por definir"}}},
+				    FilasConv = List.Transform(Conversiones, (cv) =>
+				        let
+				            pares = List.Zip({Table.Column(Final, cv{0}), Table.Column(Final, cv{1})}),
+				            convertidos = List.Count(List.Select(pares, each _{1} <> null)),
+				            errores = List.Count(List.Select(pares, each _{1} = null and not List.Contains(cv{3} & {""}, Text.Trim(_{0}))))
+				        in
+				            [paso = "Convertir tipo de dato", columna = cv{0}, valor_original = "Texto", valor_nuevo = cv{2} & " (" & cv{1} & ")",
+				             registros_afectados = convertidos, filas_antes = Table.RowCount(Final), filas_despues = Table.RowCount(Final),
+				             conteo_nuevo_antes = null, conteo_nuevo_despues = null,
+				             validacion = if errores = 0 then "OK" else Text.From(errores) & " sin convertir"]),
+				    // 5. El resultado de este registro debe ser idéntico a Admisiones_Limpia
+				    Limpia = Table.Buffer(Admisiones_Limpia),
+				    Comprobacion = [paso = "Comprobación final", columna = "(todas)", valor_original = "Resultado de este registro", valor_nuevo = "Admisiones_Limpia",
+				        registros_afectados = null, filas_antes = Table.RowCount(Final), filas_despues = Table.RowCount(Limpia),
+				        conteo_nuevo_antes = null, conteo_nuevo_despues = null,
+				        validacion = if Table.RowCount(FinalCod) = Table.RowCount(Limpia)
+				            and Table.RowCount(Table.Distinct(Table.Combine({FinalCod, Limpia}))) = Table.RowCount(FinalCod) then "OK" else "Revisar"],
+				    Filas = {FilaDup} & FilasTrim & Acumulado[filas] & FilasPeriodo & {FilaSinCodigo} & FilasConv & {Comprobacion},
+				    Tabla = Table.FromRecords(Filas),
+				    Tipos = Table.TransformColumnTypes(Tabla, {{"paso", type text}, {"columna", type text}, {"valor_original", type text}, {"valor_nuevo", type text},
+				        {"registros_afectados", Int64.Type}, {"filas_antes", Int64.Type}, {"filas_despues", Int64.Type},
+				        {"conteo_nuevo_antes", Int64.Type}, {"conteo_nuevo_despues", Int64.Type}, {"validacion", type text}}),
+				    ConOrden = Table.AddIndexColumn(Tipos, "orden", 1, 1, Int64.Type),
+				    Ordenada = Table.ReorderColumns(ConOrden, {"orden", "paso", "columna", "valor_original", "valor_nuevo", "registros_afectados",
+				        "filas_antes", "filas_despues", "conteo_nuevo_antes", "conteo_nuevo_despues", "validacion"})
+				in
+				    Ordenada
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,129 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "7826363653426452935f",
+  "position": {
+    "x": 450,
+    "y": 420,
+    "z": 0,
+    "height": 290,
+    "width": 820
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Duplicados"
+                    }
+                  },
+                  "Property": "registro_id"
+                }
+              },
+              "queryRef": "Duplicados.registro_id",
+              "nativeQueryRef": "registro_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Duplicados"
+                    }
+                  },
+                  "Property": "aspirante_id"
+                }
+              },
+              "queryRef": "Duplicados.aspirante_id",
+              "nativeQueryRef": "aspirante_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Duplicados"
+                    }
+                  },
+                  "Property": "programa"
+                }
+              },
+              "queryRef": "Duplicados.programa",
+              "nativeQueryRef": "programa"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Duplicados"
+                    }
+                  },
+                  "Property": "estado_proceso"
+                }
+              },
+              "queryRef": "Duplicados.estado_proceso",
+              "nativeQueryRef": "estado_proceso"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Duplicados"
+                    }
+                  },
+                  "Property": "fecha_solicitud"
+                }
+              },
+              "queryRef": "Duplicados.fecha_solicitud",
+              "nativeQueryRef": "fecha_solicitud"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Duplicados"
+                    }
+                  },
+                  "Property": "veces"
+                }
+              },
+              "queryRef": "Duplicados.veces",
+              "nativeQueryRef": "veces"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Filas repetidas exactamente'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

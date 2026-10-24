@@ -1,0 +1,216 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "786f9525f998253f7b67",
+  "position": {
+    "x": 10.465145987991653,
+    "y": 138.37248584122298,
+    "z": 0,
+    "height": 354.65216959305047,
+    "width": 1259.3059005549956
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "orden"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.orden",
+              "nativeQueryRef": "orden"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "paso"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.paso",
+              "nativeQueryRef": "paso"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "columna"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.columna",
+              "nativeQueryRef": "columna"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "valor_original"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.valor_original",
+              "nativeQueryRef": "valor_original"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "valor_nuevo"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.valor_nuevo",
+              "nativeQueryRef": "valor_nuevo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "registros_afectados"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.registros_afectados",
+              "nativeQueryRef": "registros_afectados"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "filas_antes"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.filas_antes",
+              "nativeQueryRef": "filas_antes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "filas_despues"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.filas_despues",
+              "nativeQueryRef": "filas_despues"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "conteo_nuevo_antes"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.conteo_nuevo_antes",
+              "nativeQueryRef": "conteo_nuevo_antes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "conteo_nuevo_despues"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.conteo_nuevo_despues",
+              "nativeQueryRef": "conteo_nuevo_despues"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "validacion"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.validacion",
+              "nativeQueryRef": "validacion"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Registro_Transformaciones"
+                  }
+                },
+                "Property": "orden"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Registro de transformaciones con validación'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

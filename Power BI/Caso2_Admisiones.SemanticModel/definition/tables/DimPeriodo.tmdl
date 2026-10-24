@@ -1,0 +1,52 @@
+table 'DimPeriodo'
+	lineageTag: 098e1272-5717-427e-8d93-12cd90b14a5c
+
+	column 'periodo_codigo'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6cf99c23-5170-4a76-a367-195c3df6bd40
+		summarizeBy: none
+		sourceColumn: periodo_codigo
+
+		annotation SummarizationSetBy = User
+
+	column 'anio'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a1a07eb-7e4b-44f0-a5ad-f8e50b7f3569
+		summarizeBy: none
+		sourceColumn: anio
+
+		annotation SummarizationSetBy = User
+
+	column 'numero_periodo'
+		dataType: int64
+		formatString: 0
+		lineageTag: dfb7ad8e-3f9c-4c25-8ec1-67775e204660
+		summarizeBy: none
+		sourceColumn: numero_periodo
+
+		annotation SummarizationSetBy = User
+
+	column 'etiqueta'
+		dataType: string
+		lineageTag: e987c9ac-1d2e-4b7f-81f5-3d1ff2a59804
+		summarizeBy: none
+		sourceColumn: etiqueta
+		sortByColumn: periodo_codigo
+
+		annotation SummarizationSetBy = User
+
+	partition 'DimPeriodo' = m
+		mode: import
+		source =
+				let
+				    Codigos = List.Sort(List.Distinct(Periodo_Codigos[periodo_codigo])),
+				    Tabla = Table.FromList(Codigos, Splitter.SplitByNothing(), type table [periodo_codigo = Int64.Type]),
+				    Anio = Table.AddColumn(Tabla, "anio", each Number.IntegerDivide([periodo_codigo], 10), Int64.Type),
+				    Numero = Table.AddColumn(Anio, "numero_periodo", each Number.Mod([periodo_codigo], 10), Int64.Type),
+				    Etiqueta = Table.AddColumn(Numero, "etiqueta", each Text.From([anio]) & ", " & (if [numero_periodo] = 1 then "primer" else "segundo") & " periodo", type text)
+				in
+				    Etiqueta
+
+	annotation PBI_ResultType = Table

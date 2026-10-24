@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Caso2_Admisiones"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "06f240b7-d913-411b-92f9-281064b1f264"
+  }
+}

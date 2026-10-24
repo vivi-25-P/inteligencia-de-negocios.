@@ -1,0 +1,62 @@
+table Validacion_Columnas
+	lineageTag: 7fdc0c89-d83e-4237-92d2-f953f5502816
+
+	column columna
+		dataType: string
+		lineageTag: 6456c3a0-1fb0-4b64-b230-de4725d24ebb
+		summarizeBy: none
+		sourceColumn: columna
+
+		annotation SummarizationSetBy = User
+
+	column distintos_antes
+		dataType: int64
+		formatString: 0
+		lineageTag: d654fefb-48bb-4825-87da-e87e2a88a293
+		summarizeBy: none
+		sourceColumn: distintos_antes
+
+		annotation SummarizationSetBy = User
+
+	column distintos_despues
+		dataType: int64
+		formatString: 0
+		lineageTag: fc2c7d58-dbb0-49ee-b5a1-93bcd19d5ad3
+		summarizeBy: none
+		sourceColumn: distintos_despues
+
+		annotation SummarizationSetBy = User
+
+	column valores_despues
+		dataType: string
+		lineageTag: 44ca8ff3-44d6-4ed0-81da-1a94d580fc47
+		summarizeBy: none
+		sourceColumn: valores_despues
+
+		annotation SummarizationSetBy = User
+
+	partition Validacion_Columnas = m
+		mode: import
+		source =
+				let
+				    Antes = Admisiones_Original,
+				    Despues = Admisiones_Limpia,
+				    Columnas = {"programa", "modalidad", "canal_captacion", "estado_proceso", "documentos_completos", "ciudad_residencia", "asesor", "periodo_academico"},
+				    Filas = List.Transform(Columnas, (c) =>
+				        let
+				            d = if c = "periodo_academico" then "periodo_codigo" else c,
+				            valoresDespues = List.Transform(List.Distinct(Table.Column(Despues, d)), Text.From)
+				        in
+				            [
+				                columna = if c = "periodo_academico" then "periodo_academico → periodo_codigo" else c,
+				                distintos_antes = List.Count(List.Distinct(Table.Column(Antes, c))),
+				                distintos_despues = List.Count(valoresDespues),
+				                valores_despues = Text.Combine(List.Sort(valoresDespues), ", ")
+				            ]),
+				    Tabla = Table.TransformColumnTypes(Table.FromRecords(Filas),
+				        {{"columna", type text}, {"distintos_antes", Int64.Type}, {"distintos_despues", Int64.Type}, {"valores_despues", type text}})
+				in
+				    Tabla
+
+	annotation PBI_ResultType = Table
+

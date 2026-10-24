@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "2269583afef610d549f4",
+  "position": {
+    "x": 639.53669926615657,
+    "y": 10.465145987991653,
+    "z": 0,
+    "height": 127.90733985323132,
+    "width": 300.0008516557607
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Registro_Transformaciones"
+                    }
+                  },
+                  "Property": "Pasos registrados"
+                }
+              },
+              "queryRef": "Registro_Transformaciones.Pasos registrados",
+              "nativeQueryRef": "Pasos registrados"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Pasos registrados'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

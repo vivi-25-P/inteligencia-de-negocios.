@@ -1,0 +1,69 @@
+table Frecuencias_Originales
+	lineageTag: 456e1205-d00c-40c2-9222-2e689ebab966
+
+	measure 'Registros (etiqueta original)' = SUM(Frecuencias_Originales[registros])
+		formatString: #,0
+		lineageTag: 325f0d82-c4f8-4bec-9846-4603921905e9
+
+	column columna
+		dataType: string
+		lineageTag: 2f7c1ea5-61b0-47e0-98c2-d8aac1e19311
+		summarizeBy: none
+		sourceColumn: columna
+
+		annotation SummarizationSetBy = User
+
+	column valor
+		dataType: string
+		lineageTag: 03ad07cf-9899-44e9-b776-21405a415e95
+		summarizeBy: none
+		sourceColumn: valor
+
+		annotation SummarizationSetBy = User
+
+	column registros
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6bef42ba-c764-4de9-a9ca-8ca2ae546383
+		summarizeBy: none
+		sourceColumn: registros
+
+		annotation SummarizationSetBy = User
+
+	column etiqueta
+		dataType: string
+		lineageTag: 9a1867c4-f88f-43b2-aeda-9045268825ee
+		summarizeBy: none
+		sourceColumn: etiqueta
+
+		annotation SummarizationSetBy = User
+
+	column porcentaje
+		dataType: double
+		formatString: 0.00%
+		lineageTag: f94484d7-7c72-488d-a45e-947dd5fa1a6f
+		summarizeBy: none
+		sourceColumn: porcentaje
+
+		annotation SummarizationSetBy = User
+
+	partition Frecuencias_Originales = m
+		mode: import
+		source =
+				let
+				    Origen = Admisiones_Original,
+				    Total = Table.RowCount(Origen),
+				    Columnas = {"programa", "modalidad", "canal_captacion", "estado_proceso", "documentos_completos", "ciudad_residencia", "asesor", "periodo_academico"},
+				    Seleccion = Table.AddIndexColumn(Table.SelectColumns(Origen, Columnas), "fila", 1, 1),
+				    Despivotado = Table.UnpivotOtherColumns(Seleccion, {"fila"}, "columna", "valor"),
+				    Agrupado = Table.Group(Despivotado, {"columna", "valor"}, {{"registros", each Table.RowCount(_), Int64.Type}}),
+				    Etiqueta = Table.AddColumn(Agrupado, "etiqueta", each
+				        (if Text.Trim([valor]) = "" then "Solo un espacio"
+				         else if Text.EndsWith([valor], " ") then Text.Trim([valor]) & " + espacio final"
+				         else [valor]) & " (" & Text.From([registros]) & ")", type text),
+				    Porcentaje = Table.AddColumn(Etiqueta, "porcentaje", each [registros] / Total, Percentage.Type)
+				in
+				    Porcentaje
+
+	annotation PBI_ResultType = Table
+
